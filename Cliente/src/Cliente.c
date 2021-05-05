@@ -20,12 +20,12 @@ int main(void) {
 	struct sockaddr_in direccionServidor;
 
 	direccionServidor.sin_family = AF_INET;
-	direccionServidor.sin_addr.s_addr //Buscar ip
+	direccionServidor.sin_addr.s_addr = inet_addr("127.0.0.1");
 	direccionServidor.sin_port = htons(8080);
 
-	int cliente = socket(direccionServidor->sin_family,SOCK_STREAM,0);
+	int cliente = socket(AF_INET,SOCK_STREAM,0);
 
-	if(conect(cliente,(void*)&direccionServidor,sizeof(direccionServidor))!=0){
+	if(connect(cliente,(void*)&direccionServidor,sizeof(direccionServidor))!=0){
 
 		perror("Error al conectar");
 		return 1;
