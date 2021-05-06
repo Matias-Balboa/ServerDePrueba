@@ -31,6 +31,8 @@ int main(void) {
 
 	for( ; ; );
 
+	// Falta accept y recv
+
 	return 0;
 
 }
