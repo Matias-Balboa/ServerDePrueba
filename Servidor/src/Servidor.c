@@ -21,7 +21,7 @@ int main(void) {
 	direccionServidor.sin_family = AF_INET;
 	// Le decimos al servidor que escuche en cualquiera de las interfaces del SO
 	// Interfaces del SO son . . .
-	direccionServidor.sin_addr.s_addr = INADDR_ANY;
+	direccionServidor.sin_addr.s_addr = inet_addr("127.0.0.1");
 	// 8080 es el puerto en el cual tiene que escucha el servidor
 	direccionServidor.sin_port = htons(8080);
 
@@ -59,15 +59,17 @@ int main(void) {
 	// -------------- ACEPTAMOS CLIENTES -------------- //
 
 	// Creo una direccion para el cliente
-	struct sockaddr_in direccionCliente;
+	struct sockaddr direccionCliente;
 	// Creo una variable sin signo para guardar el tamanio de la direccion del cliente.
-	unsigned int tamanioDireccionCliente;
+	unsigned int tamanioDireccionCliente = sizeof(direccionCliente);
 	/* Los punteros son para que accept me indique quien es la persona que se acaba de
 	   conectar. Esta funcion me va a devolver un numero con el ID del socket del
 	   cliente que se conecto */
-	int cliente = accept(servidor, (void*) &direccionCliente, &tamanioDireccionCliente);
-
-	printf("Recibi una conexion en: %d \n", cliente);
+	int cliente = accept(servidor, (void*) (struct sockaddr*)&direccionCliente, &tamanioDireccionCliente);
+//	if (cliente == -1){
+//		perror("No se pudo conectar");
+//	}
+		printf("Recibi una conexion en: %d \n", cliente);
 
 	// Le enviamos un mensaje al cliente mediante la funcion send.
 	// send(socket del cliente, buffer, tamanio del buffer o cant bytes, flags);
