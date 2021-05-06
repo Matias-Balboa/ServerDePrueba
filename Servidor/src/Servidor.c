@@ -15,6 +15,7 @@
 
 int main(void) {
 	// -------------- CREAMOS EL SERVIDOR -------------- //
+
 	// Creo una direccion para el servidor
 	struct sockaddr_in direccionServidor;
 	direccionServidor.sin_family = AF_INET;
@@ -29,6 +30,12 @@ int main(void) {
 	 TCP IP es un conjunto de protocolos que permiten la comunicacion entre
 	 ordenadores pertenecientes a una red. */
 	int servidor = socket(AF_INET, SOCK_STREAM, 0);
+
+
+	int activado = 1; // True
+	// Setea el flag activado y con SO_REUSEADOR le indica al SO que le permita
+	// reutilizar las direcciones.
+	setsockopt(servidor, SOL_SOCKET, SO_REUSEADDR, %activado, sizeof(activado));
 
 	/* Asociamos con la funcion bind el socket con la direccion del servidor.
 	  bind(socket, puntero a la direccion del servidor, el tamanio del servidor);
@@ -50,6 +57,7 @@ int main(void) {
 	   aseguro que el tamanio de la cola va a ser el maximo. */
 
 	// -------------- ACEPTAMOS CLIENTES -------------- //
+
 	// Creo una direccion para el cliente
 	struct sockaddr_in direccionCliente;
 	// Creo una variable sin signo para guardar el tamanio de la direccion del cliente.
@@ -61,7 +69,12 @@ int main(void) {
 
 	printf("Recibi una conexion en %d!\n :O", cliente);
 
+	// Le enviamos un mensaje al cliente mediante la funcion send.
+	// send(socket del cliente, buffer, tamanio del buffer o cant bytes, flags);
+	send(cliente, "Hola! Soy el Servidor :)\n", 30, 0);
+
 	// -------------- RECIBIMOS DATOS DEL CLIENTE -------------- //
+
 	// Creo un buffer de 5 bytes para almacenar el mensaje enviado por el cliente
 	char* buffer = malloc(5);
 	/* Con la funcion recv le decimos que de ese socket el cliente, lo que recibamos
