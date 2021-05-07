@@ -85,19 +85,22 @@ int main(void) {
 	   recv(socket del cliente, donde almacenamos lo que recibimos, cant maxima de bytes, flag);
 	   El resultado de la funcion recv son los bytes recibidos.
 	   Si recibimos mas bytes de los que indicamos los tenemos que recibir dsp. */
-		//int bytesRecibidos = recv(cliente, buffer, 1000, 0);
+		int bytesRecibidos;
+		bytesRecibidos = recv(cliente, buffer, 1000, 0);
+
 	while(1){
-		int bytesRecibidos = recv(cliente, buffer, 1000, 0);
 		if(bytesRecibidos < 0) {
-			printf("Los bytes:%d \n",bytesRecibidos);
 			perror("Se desconecto el cliente! u.u\n");
+			printf("Los bytes:%d \n",bytesRecibidos);
 			return 1;
 		}
 	//En el buffer recibido, en el ultimo byte ya que recibimos un string y de esta
 	// forma podemos hacer un printf.
 	buffer[bytesRecibidos] = '\0';
 
-	printf("Me llegaron %d bytes con %s", bytesRecibidos, buffer);
+	printf("Me llegaron %d bytes con %s \n", bytesRecibidos, buffer);
+			bytesRecibidos = recv(cliente, buffer, 1000, 0);
+
 	}
 
 	// Liberamos el buffer.
